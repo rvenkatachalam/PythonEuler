@@ -69,8 +69,42 @@ while tri1 == 0:
             oct1 = 1
     n += 1
 
+options = list(pt(['tri','sq','pent','hex','hept','oct']))
 
+# print options[0]
 
+success = 0
 
-print x
+n = 0
+
+while success == 0:
+    for a in xrange(0,len(eval(options[n][0])),1):
+        t1 = eval(options[n][0])[a] % 100
+        if len(str(t1)) == 2:
+            for b in xrange(0,len(eval(options[n][1])),1):
+                if t1 == int(eval(options[n][1])[b]/100):
+                    t2 = eval(options[n][1])[b] % 100
+                    if len(str(t2)) == 2:
+                        for c in xrange(0,len(eval(options[n][2])),1):
+                            if t2 == int(eval(options[n][2])[c]/100):
+                                t3 = eval(options[n][2])[c] % 100
+                                if len(str(t3)) == 2:
+                                    for d in xrange(0,len(eval(options[n][3])),1):
+                                        if t3 == int(eval(options[n][3])[d]/100):
+                                            t4 = eval(options[n][3])[d] % 100
+                                            if len(str(t4)) == 2:
+                                                for e in xrange(0,len(eval(options[n][4])),1):
+                                                    if t4 == int(eval(options[n][4])[e]/100):
+                                                        t5 = eval(options[n][4])[e] % 100
+                                                        if len(str(t5)) == 2:
+                                                            for f in xrange(0,len(eval(options[n][5])),1):
+                                                                if t5 == int(eval(options[n][5])[f]/100):
+                                                                    t6 = eval(options[n][5])[f] % 100
+                                                                    if len(str(t6)) == 2:
+                                                                        if t6 == int(eval(options[n][0])[a]/100):
+                                                                            print eval(options[n][0])[a], eval(options[n][1])[b], eval(options[n][2])[c],  eval(options[n][3])[d], eval(options[n][4])[e], eval(options[n][5])[f]
+                                                                            print eval(options[n][0])[a] + eval(options[n][1])[b] + eval(options[n][2])[c] +  eval(options[n][3])[d] + eval(options[n][4])[e] + eval(options[n][5])[f]
+                                                                            success = 1
+    n = n+1
+
 print('Solution took: ' + str((dt.now()-start).total_seconds()) + ' seconds')
