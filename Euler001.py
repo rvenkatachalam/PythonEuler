@@ -1,11 +1,24 @@
-# Euler P 001
-# If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23
-# Find the sum of all the multiples of 3 or 5 below 1000.
+"""Project Euler Problem 1
+Find the sum of all the multiples of 3 or 5 below 1000.
 
-sum = 0
+This version uses a mathematical formula instead of iterating through every
+number, which reduces the runtime to constant time.
+"""
 
-for x in xrange(1,1000,1): # Doesnt include the last number of the loop, exits before that
-    if (x%3) == 0 or (x%5) == 0:
-        sum += x
 
-print sum
+def sum_divisible_by(n, limit):
+    """Return the sum of all multiples of ``n`` below ``limit``."""
+    p = (limit - 1) // n
+    return n * p * (p + 1) // 2
+
+
+def solve(limit=1000):
+    return (
+        sum_divisible_by(3, limit)
+        + sum_divisible_by(5, limit)
+        - sum_divisible_by(15, limit)
+    )
+
+
+if __name__ == "__main__":
+    print(solve())
