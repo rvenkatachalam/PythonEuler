@@ -1,33 +1,66 @@
 # coding=utf-8
+"""
+Project Euler Problem 25
+------------------------
+Find the index of the first term in the Fibonacci sequence
+to contain 1000 digits.
 
-# The Fibonacci sequence is defined by the recurrence relation:
-# Fn = Fn−1 + Fn−2, where F1 = 1 and F2 = 1.
-# Hence the first 12 terms will be:
-# F1 = 1
-# F2 = 1
-# F3 = 2
-# F4 = 3
-# F5 = 5
-# F6 = 8
-# F7 = 13
-# F8 = 21
-# F9 = 34
-# F10 = 55
-# F11 = 89
-# F12 = 144
-# The 12th term, F12, is the first term to contain three digits.
-# What is the index of the first term in the Fibonacci sequence to contain 1000 digits?
+Fast approach used here:
+- Instead of generating Fibonacci numbers one-by-one,
+  we compute the answer directly with logarithms.
+- This is effectively O(1) time.
+"""
 
-from datetime import datetime
-start = datetime.now()
+from math import ceil, log10, sqrt
+from time import perf_counter
 
-prev = 1
-now = 1
-index = 2
 
-while len(str(now))<1000:
-    now, prev = now+prev, now
-    index += 1
+def first_fib_index_with_digits(digits):
+    """
+    Return the index n of the first Fibonacci number F(n)
+    that has at least `digits` decimal digits.
 
-print index
-print('Solution took: ' + str(datetime.now()-start)+ ' ms')
+    Why this works:
+    ----------------
+    1) Binet approximation for Fibonacci numbers:
+           F(n) ≈ phi^n / sqrt(5)
+       where phi = (1 + sqrt(5)) / 2
+
+    2) A number has `digits` digits iff it is >= 10^(digits-1).
+       So we need:
+           phi^n / sqrt(5) >= 10^(digits-1)
+
+    3) Taking log10 both sides gives:
+           n * log10(phi) - log10(sqrt(5)) >= digits - 1
+
+    4) Solve for n and round up to get the first valid index:
+           n = ceil((digits - 1 + log10(sqrt(5))) / log10(phi))
+
+    This avoids large integer arithmetic and repeated string conversion.
+    """
+    # Edge case: F1 = 1 is already 1 digit.
+    if digits <= 1:
+        return 1
+
+    # Golden ratio.
+    phi = (1 + sqrt(5)) / 2
+
+    # Closed-form index computation.
+    return int(ceil((digits - 1 + log10(sqrt(5))) / log10(phi)))
+
+
+def main():
+    """Compute and print the Project Euler 25 result with timing."""
+    start = perf_counter()
+
+    target_digits = 1000
+    index = first_fib_index_with_digits(target_digits)
+
+    elapsed_ms = (perf_counter() - start) * 1000.0
+
+    print(index)
+    print("Solution took: {:.3f} ms".format(elapsed_ms))
+
+
+if __name__ == "__main__":
+    main()
